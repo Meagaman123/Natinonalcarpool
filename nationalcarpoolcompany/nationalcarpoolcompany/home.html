@@ -1,0 +1,507 @@
+﻿<!DOCTYPE html>
+<html ng-app="nccApp">
+  <head>
+    <meta charset="utf-8" />
+    <title>NCC | Welcome</title>
+    <link href="assets/img/favicon.ico" rel="shortcut icon" type="image/png" />
+    <link href="assets/css/style.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body ng-controller="authenticationController">
+    <div ng-show="signedOutShow">
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+      <link
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous"
+      />
+      <div>
+        <div class="alert alert-warning" role="alert" ng-show="apiErrorMessage">
+          Error: {{ apiErrorMessage | json }}
+        </div>
+        <div class="loginForm" name="loginForm">
+          <img src="assets/img/NCCLogo.PNG" alt="NCC Logo" />
+          <br />
+          <form name="loginForm">
+            <input
+              type="text"
+              name="test"
+              placeholder="USERNAME"
+              ng-model="username"
+              required
+            />
+            <br />
+            <input
+              type="password"
+              name="test"
+              placeholder="PASSWORD"
+              ng-model="password"
+              required
+            />
+            <br />
+            <button
+              id="loginBtn"
+              ng-click="login()"
+              class="btn btn-secondary"
+              name="loginBtn"
+            >
+              LOGIN
+            </button>
+          </form>
+          <br />
+          <div
+            class="alert alert-danger"
+            role="alert"
+            ng-show="loginErrorMessage"
+            style="margin: 5px;"
+          >
+            Invalid Username/Password Combination
+          </div>
+        </div>
+      </div>
+      <!-- Libraries  -->
+      <script
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"
+      ></script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"
+      ></script>
+    </div>
+
+    <div ng-show="signedInShow">
+      <div id="navBarContainer">
+        <img id="navbarLogo" src="assets/img/ncclogo.png" alt="NCC Logo" />
+      </div>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+      <link
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous"
+      />
+      <div class="alert alert-warning" role="alert" ng-show="apiErrorMessage">
+        Error: {{ apiErrorMessage | json }}
+      </div>
+      <div class="navToggleLinks" ng-controller="navigationController">
+        <ul class="nav navbar-dark bg-dark md-pills nav-justified">
+          <li class="nav-item">
+            <a
+              id="navBarItem"
+              class="nav-link active"
+              name="BOOKINGS"
+              data-toggle="tab"
+              href="#"
+              role="tab"
+              ng-click="toggleMenuLink($event)"
+              >BOOKINGS</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              id="navBarItem"
+              class="nav-link"
+              name="ROUTES"
+              data-toggle="tab"
+              href="#"
+              role="tab"
+              ng-click="toggleMenuLink($event)"
+              >ROUTES</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              id="navBarItem"
+              class="nav-link"
+              name="VEHICLES"
+              data-toggle="tab"
+              href="#"
+              role="tab"
+              ng-click="toggleMenuLink($event)"
+              >VEHICLES</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              id="navBarItem"
+              class="nav-link"
+              name="LO"
+              data-toggle="tab"
+              href="#"
+              role="tab"
+              ng-click="toggleMenuLink($event)"
+              >LOG OUT</a
+            >
+          </li>
+        </ul>
+        <h1>Welcome {{ username }}</h1>
+
+        <!-- BOOKING FORMS -->
+        <div
+          class="bookingsController"
+          ng-controller="bookingController"
+          ng-show="bookingShow"
+        >
+          <strong><h1>CURRENT BOOKINGS</h1></strong>
+          <button ng-click="showAddBooking()" class="btn btn-success">
+            Add Booking &nbsp; <i class="fas fa-plus"></i>
+          </button>
+          <br />
+          <input
+            class="form-control"
+            type="text"
+            ng-model="bookingSearch"
+            placeholder="Filter By Name"
+          />
+          <table class="table table-dark">
+            <tr>
+              <th scope="col">Passenger Name</th>
+              <th scope="col">Pick Up Location</th>
+              <th scope="col">Drop Off Location</th>
+              <th scope="col">Vehicle ID</th>
+              <th scope="col">Current Passengers</th>
+              <th scope="col">Edit/Delete</th>
+              <th scope="col">Add A Passenger</th>
+            </tr>
+            <tr
+              scope="row"
+              ng-repeat="booking in bookings | filter:bookingSearch"
+            >
+              <td>{{ booking.PassengerName }}</td>
+              <td>{{ booking.PickupLocation }}</td>
+              <td>{{ booking.DropOffLocation }}</td>
+              <td>{{ booking.VehicleId }}</td>
+              <td>{{ booking.CurrentPassenger }}</td>
+              <td>
+                <i
+                  ng-click="displayEditBooking(booking.Id)"
+                  id="editIcon"
+                  class="fas fa-edit"
+                ></i>
+                |
+                <i
+                  ng-click="delBooking(booking.Id)"
+                  id="delIcon"
+                  class="fas fa-trash-alt"
+                ></i>
+              </td>
+              <td>
+                <button
+                  class="btn btn-secondary"
+                  ng-click="showAddingPassenger(booking.VehicleId, booking.Id, booking.CurrentPassenger)"
+                >
+                  Add A Passenger
+                </button>
+              </td>
+            </tr>
+          </table>
+
+          <div ng-show="isAddingPassenger">
+            <div
+              class="alert alert-danger"
+              role="alert"
+              ng-show="addPassengersError"
+            >
+              Too Many Passengers For This Booking! Vehicle can only carry
+              <strong> {{ bookingVehicleCapacity }} </strong>
+            </div>
+            <h2>Do you want to add passengers to this booking?</h2>
+            <label
+              >Number Of Passengers:
+              <input type="number" ng-model="requestedPassengers"
+            /></label>
+            <p>
+              Current Passengers:
+              <span class="badge badge-pill badge-info">{{
+                currentVehicleCapacity
+              }}</span>
+            </p>
+            <p>
+              Max Passengers:
+              <span class="badge badge-pill badge-danger">{{
+                bookingVehicleCapacity
+              }}</span>
+            </p>
+            <button class="btn btn-danger" ng-click="closeAddPassenger()">
+              Cancel
+            </button>
+            <button class="btn btn-success" ng-click="confirmAddPassenger()">
+              Confirm
+            </button>
+          </div>
+
+          <div ng-show="isAdding">
+            <h2>Add Booking</h2>
+            <label
+              >Passenger Name: <input ng-model="bookingPassengerName"/></label
+            ><br />
+            <label
+              >Pickup Location: <input ng-model="bookingPickupLocation"/></label
+            ><br />
+            <label
+              >Dropoff Location:
+              <input ng-model="bookingDropOffLocation"/></label
+            ><br />
+            <label>Vehicle ID: <input ng-model="bookingVehicleId"/></label
+            ><br />
+            <label
+              >Current Passengers:
+              <input ng-model="bookingCurrentPassenger"/></label
+            ><br />
+
+            <button class="btn btn-success" ng-click="addBooking()">
+              Add Booking
+            </button>
+            <button class="btn btn-danger" ng-click="cancelAddBooking()">
+              Cancel
+            </button>
+          </div>
+
+          <div ng-show="isUpdating">
+            <h2>Edit Booking</h2>
+            <label
+              >Passenger Name:
+              <input ng-model="editBookingPassengerName"/></label
+            ><br />
+            <label
+              >Pickup Location:
+              <input ng-model="editBookingPickupLocation"/></label
+            ><br />
+            <label
+              >Dropoff Location:
+              <input ng-model="editBookingDropOffLocation"/></label
+            ><br />
+            <label>Vehicle ID: <input ng-model="editBookingVehicleId"/></label
+            ><br />
+            <label
+              >Current Passengers:
+              <input ng-model="editBookingCurrentPassenger"/></label
+            ><br />
+
+            <button class="btn btn-success" ng-click="submitEdit()">
+              Edit
+            </button>
+            <button class="btn btn-danger" ng-click="cancelEdit()">
+              Cancel
+            </button>
+          </div>
+        </div>
+
+        <!-- ROUTE FORMS  -->
+        <div
+          class="bookingsController"
+          ng-controller="routesController"
+          ng-show="routeShow"
+        >
+          <strong><h1>CURRENT ROUTES</h1></strong>
+          <button ng-click="showAddRoutes()" class="btn btn-success">
+            Add Route &nbsp; <i class="fas fa-plus"></i>
+          </button>
+          <br />
+          <input
+            class="form-control"
+            type="text"
+            ng-model="routeSearch"
+            placeholder="Filter By Name"
+          />
+          <table class="table table-dark">
+            <tr>
+              <th scope="col">Route Start Point</th>
+              <th scope="col">Route End Point</th>
+              <th scope="col" ng-show="manager">Edit/Delete</th>
+            </tr>
+            <tr scope="row" ng-repeat="route in routes | filter:routeSearch">
+              <td>{{ route.RouteStartPoint }}</td>
+              <td>{{ route.RouteEndPoint }}</td>
+              <td ng-show="manager">
+                <i
+                  ng-click="displayEditRoute(route.Id)"
+                  id="editIcon"
+                  class="fas fa-edit"
+                ></i>
+                |
+                <i
+                  ng-click="delRoute(route.Id)"
+                  id="delIcon"
+                  class="fas fa-trash-alt"
+                ></i>
+              </td>
+            </tr>
+          </table>
+
+          <div ng-show="isAdding">
+            <h2>Add Route</h2>
+            <label>Route Start Point: <input ng-model="routeStart"/></label
+            ><br />
+            <label>Route End Point: <input ng-model="routeEnd"/></label><br />
+
+            <button class="btn btn-success" ng-click="addRoute()">
+              Add Route
+            </button>
+            <button class="btn btn-danger" ng-click="cancelAddRoute()">
+              Cancel
+            </button>
+          </div>
+
+          <div ng-show="isUpdating">
+            <h2>Edit Route</h2>
+            <label>Route Start Point: <input ng-model="editRouteStart"/></label
+            ><br />
+            <label>Route End Point: <input ng-model="editRouteEnd"/></label
+            ><br />
+
+            <button class="btn btn-success" ng-click="submitEdit()">
+              Edit
+            </button>
+            <button class="btn btn-danger" ng-click="cancelEdit()">
+              Cancel
+            </button>
+          </div>
+        </div>
+
+        <!-- VEHICLE FORMS -->
+        <div
+          class="bookingsController"
+          ng-controller="vehicleController"
+          ng-show="vehicleShow"
+        >
+          <strong><h1>VEHICLES</h1></strong>
+          <button ng-click="showAddVehicle()" class="btn btn-success">
+            Add Vehicle &nbsp; <i class="fas fa-plus"></i>
+          </button>
+          <br />
+          <input
+            class="form-control"
+            type="text"
+            ng-model="vehicleSearch"
+            placeholder="Search For Vehicle"
+          />
+          <table class="table table-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">CAPACITY</th>
+              <th scope="col">DRIVER</th>
+              <th scope="col">MAKE</th>
+              <th scope="col">MODEL</th>
+              <th scope="col">REGISTRATION</th>
+              <th scope="col" ng-show="manager">Edit/Delete</th>
+            </tr>
+            <tr
+              scope="row"
+              ng-repeat="vehicle in vehicles | filter:vehicleSearch"
+            >
+              <td>{{ vehicle.Id }}</td>
+              <td>{{ vehicle.Capacity }}</td>
+              <td>{{ vehicle.Driver }}</td>
+              <td>{{ vehicle.Make }}</td>
+              <td>{{ vehicle.Model }}</td>
+              <td>{{ vehicle.Registration }}</td>
+              <td ng-show="manager">
+                <i
+                  ng-click="displayEditVehicle(vehicle.Id)"
+                  id="editIcon"
+                  class="fas fa-edit"
+                ></i>
+                |
+                <i
+                  ng-click="delVehicle(vehicle.Id)"
+                  id="delIcon"
+                  class="fas fa-trash-alt"
+                ></i>
+              </td>
+            </tr>
+          </table>
+
+          <div ng-show="isAdding">
+            <h2>Add Vehicle</h2>
+            <label
+              >Capacity:
+              <select ng-model="vehicleCapacity">
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="7">7</option>
+              </select> </label
+            ><br />
+            <label>Driver: <input ng-model="vehicleDriver"/></label><br />
+            <label>Make: <input ng-model="vehicleMake"/></label><br />
+            <label>Model: <input ng-model="vehicleModel"/></label><br />
+            <label>Registration: <input ng-model="vehicleRegistration"/></label
+            ><br />
+
+            <button class="btn btn-success" ng-click="addVehicle()">
+              Add Vehicle
+            </button>
+            <button class="btn btn-danger" ng-click="cancelAddVehicle()">
+              Cancel
+            </button>
+          </div>
+
+          <div ng-show="isUpdating">
+            <h2>Edit Vehicle</h2>
+            <label
+              >Capacity:
+              <select ng-model="editVehicleCapacity">
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="7">7</option>
+              </select> </label
+            ><br />
+            <label>Driver: <input ng-model="editVehicleDriver"/></label><br />
+            <label>Make: <input ng-model="editVehicleMake"/></label><br />
+            <label>Model: <input ng-model="editVehicleModel"/></label><br />
+            <label
+              >Registration: <input ng-model="editVehicleRegistration"/></label
+            ><br />
+            <button class="btn btn-success" ng-click="submitEdit()">
+              Edit
+            </button>
+            <button class="btn btn-danger" ng-click="cancelEdit()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEEP THESE SCRIPTS AT THE BOTTOM  -->
+    <!-- App Scripts  -->
+    <script src="app/nccapp.js"></script>
+    <!-- Bookings  -->
+    <script src="app/booking/bookingmodule.js"></script>
+    <script src="app/booking/bookingcontroller.js"></script>
+    <!-- Auth  -->
+    <script src="app/authentication/authenticationmodule.js"></script>
+    <!-- Navigation  -->
+    <script src="app/navigation/navigationmodule.js"></script>
+    <script src="app/navigation/navigationcontroller.js"></script>
+    <!-- Routes  -->
+    <script src="app/route/routemodule.js"></script>
+    <script src="app/route/routecontroller.js"></script>
+    <!-- Vehicles  -->
+    <script src="app/vehicle/vehiclemodule.js"></script>
+    <script src="app/vehicle/vehiclecontroller.js"></script>
+    <!--Authentication-->
+    <script src="app/authentication/authenticationmodule.js"></script>
+    <script src="app/authentication/authenticationcontroller.js"></script>
+    <!-- Libraries  -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

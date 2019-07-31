@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html ng-app="nccApp">
+  <head>
+    <meta charset="utf-8" />
+    <title>NCC | Login</title>
+    <link href="assets/img/favicon.ico" rel="shortcut icon" type="image/png" />
+    <link href="assets/css/style.css" rel="stylesheet" />
+  </head>
+  <body ng-controller="authenticationController">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <div>
+      <div class="alert alert-warning" role="alert" ng-show="apiErrorMessage">
+        Error: {{ apiErrorMessage | json }}
+      </div>
+      <div class="loginForm" name="loginForm">
+        <img src="assets/img/NCCLogo.PNG" alt="NCC Logo" />
+        <br />
+        <form name="loginForm">
+          <input
+            type="text"
+            name="test"
+            placeholder="USERNAME"
+            ng-model="username"
+            required
+          />
+          <br />
+          <input
+            type="password"
+            name="test"
+            placeholder="PASSWORD"
+            ng-model="password"
+            required
+          />
+          <br />
+          <button
+            id="loginBtn"
+            ng-click="login()"
+            class="btn btn-secondary"
+            name="loginBtn"
+          >
+            LOGIN
+          </button>
+        </form>
+        <br />
+        <div
+          class="alert alert-danger"
+          role="alert"
+          ng-show="loginErrorMessage"
+          style="margin: 5px;"
+        >
+          Invalid Username/Password Combination
+        </div>
+      </div>
+    </div>
+    <!-- KEEP THESE SCRIPTS AT THE BOTTOM  -->
+    <!-- App Scripts  -->
+    <script src="app/nccapp.js"></script>
+    <script src="app/authentication/authenticationmodule.js"></script>
+    <script src="app/authentication/authenticationcontroller.js"></script>
+    <script src="app/booking/bookingmodule.js"></script>
+    <script src="app/navigation/navigationmodule.js"></script>
+
+    <!-- Libraries  -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

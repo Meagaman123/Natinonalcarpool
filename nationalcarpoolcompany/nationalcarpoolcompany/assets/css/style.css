@@ -1,0 +1,128 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300');
+
+body {
+    font-family: 'Open Sans Condensed', sans-serif !important;
+}
+
+html {
+    background: url("../img/city.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* LOGIN PAGE CSS */
+
+.loginForm {
+    margin: 33vh;
+    height: 25vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .loginForm input {
+        margin: 5px;
+        border-radius: 5px;
+        padding: 5px;
+        width: 100%;
+        font-family: 'Open Sans Condensed', sans-serif;
+        font-size: 18px;
+        border: 0;
+        outline: none;
+        box-shadow: none;
+        display: block;
+        height: 30px;
+        line-height: 30px;
+        padding: 8px 15px;
+        border-bottom: 1px solid #eee;
+        width: 100%;
+    }
+
+
+        .loginForm input:focus {
+            background: #f2f2f2;
+        }
+
+#loginBtn {
+    margin: 5px;
+    width: 100%;
+    width: -moz-available; /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+    width: fill-available;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 20px;
+}
+
+/* HOME PAGE CSS */
+
+/* NAVBAR */
+#navBarContainer {
+    text-align: center;
+    padding: 10px;
+    animation: animateNavHeader 1s ease-in-out 0s forwards 1;
+}
+
+#navBarItem{
+    color: white;
+    font-weight: bold;
+}
+
+#navbarLogo {
+    animation: animateLogo 1s ease-in-out 0s forwards 1;
+}
+
+@keyframes animateNavHeader{
+    from {
+        background: #f2f2f2;
+        opacity:0;
+    }
+
+    to {
+        opacity: 1;
+        background: #2E3439;
+    }
+}
+
+@keyframes animateLogo {
+    from {
+        opacity: 0;
+        border-radius: 0;
+    }
+
+    to {
+        opacity: 1;
+        border-radius: 15px 15px 2px 2px;
+    }
+}
+
+#navBarItem:hover {
+    background: #003FA1;
+}
+
+/* Bookings Controller Container */
+.bookingsController {
+    margin: 50px;
+    padding-bottom: 15px;
+}
+
+#delIcon{
+    cursor: pointer;
+}
+
+#delIcon:hover{
+    color: blue;
+}
+
+#editIcon {
+    cursor: pointer;
+}
+
+#editIcon:hover {
+    color: blue;
+}
+
+/* Fix for Bootstrap 3 with Angular UI Bootstrap */
+
+.modal {
+    display: block;
+}
